@@ -1,5 +1,6 @@
 // Import dependencies.
 import { useEffect, useRef, useState } from 'react'; // Import React hooks.
+import { Link } from 'react-router-dom'; // Import the link from the DOM.
 import './Login-Signup.css' // Import the CSS file to style the component.
 
 
@@ -242,7 +243,7 @@ function Login_Signup() {
 
                     {signinError && <span className="error">{signinError}</span>}
 
-                    <a href="#">Forget Your Password?</a>
+                    <Link to="/forgot-password">Forget Your Password?</Link>
 
                     <button type="submit">Sign In</button>
                 </form>

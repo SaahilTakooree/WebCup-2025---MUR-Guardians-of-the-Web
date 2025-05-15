@@ -89,12 +89,16 @@ body{
 .container input{
     background-color: #eee;
     border: none;
-    margin: 8px 0;
-    padding: 10px 15px;
+    margin: 8px 1px;
+    padding-top: 10px;
+    padding-right: 15px;
+    padding-bottom: 2px;
+    padding-left: 15px;
     font-size: 13px;
     border-radius: 8px;
     width: 100%;
     outline: none;
+    color: black;
 }
 
 
@@ -239,4 +243,11 @@ body{
 /* Moves the right panel out of view when active. */
 .container.active .toggle-right{
     transform: translateX(200%);
+}
+
+
+.error {
+    color: red;
+    font-size: 0.3em;
+    margin-top: 0.1em;
 }

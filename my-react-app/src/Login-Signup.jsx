@@ -1,5 +1,5 @@
 // Import dependencies.
-import { useEffect, useRef } from 'react'; // Import two React hooks.
+import { useEffect, useRef, useState } from 'react'; // Import React hooks.
 import './Login-Signup.css' // Import the CSS file to style the component.
 
 
@@ -42,30 +42,213 @@ function Login_Signup() {
     }, []);
 
 
+    // React state to store the user's signup form data.
+    const [signupData, setSignupData] = useState({
+        name: '',
+        email: '',
+        password: ''
+    });
+
+    // React state to store validation error messages for each signup field.
+    const [signupErrors, setSignupErrors] = useState({
+        name: '',
+        email: '',
+        password: ''
+    });
+
+    // Function that handles changes in any input field.
+    const handleSignupInputChange = (event) => {
+
+        // Extract the field name and its value from the event.
+        const { name, value } = event.target;
+
+        // Update the corresponding field in the signupData state.
+        setSignupData(prev => ({ ...prev, [name]: value }));
+
+        // Clear any existing error for that specific field as the user types.
+        setSignupErrors(prev => ({ ...prev, [name]: '' }));
+    };
+
+    // Function that runs when the Sign Up form is submitted.
+    const handleSignUpSubmit = (event) => {
+
+        // Prevents the default form submission.
+        event.preventDefault();
+
+        // Destructure the current values from the signupData state.
+        const { name, email, password } = signupData;
+
+        // Initialise an empty errors object to store validation messages.
+        let errors = { name: '', email: '', password: '' };
+
+        // Flag to track if the form is valid.
+        let isValid = true;
+
+        // Name validation.
+        if (!name.trim()) { // If there is no name.
+            errors.name = 'Name is required.'; // Set error if name is empty.
+            isValid = false; // Mark form as invalid.
+        } else if (!/^[A-Z][a-z]*([ ][A-Z][a-z]*)*$/.test(name)) {
+            errors.name  = "Must start with a capital letter. Must contain only letters."; // If the first name does not matches the correct format.
+            isValid = false; // Mark form as invalid.
+        };
+
+        // Email validation.
+        if (!email.trim()) { // If there is no email.
+            errors.email = 'Email is required.'; // Set error if email is empty.
+            isValid = false; // Mark form as invalid.
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { // If the email does not matches the correct format.
+            errors.email = "Please enter a valid email.";
+            isValid = false; // Mark form as invalid.
+        };
+
+        // Password validation.
+        if (!password) { // If there is no password.
+            errors.password = 'Password is required.'; // Set error if  is password empty.
+            isValid = false; // Mark form as invalid.
+        } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/.test(password)) { // If the password does not matches the correct format.
+            errors.password = "Must be at least 8 characters long. Must contain at least one lowercase, uppercase and special character.";
+            isValid = false; // Mark form as invalid.
+        };
+
+        // Update the state with any collected error messages.
+        setSignupErrors(errors);
+
+        // If validation failed, stop the function here.
+        if (!isValid) return;
+
+        alert("Sign up successful!");
+    };
+
+
+    // React state to store the user's signin form data.
+    const [signinData, setSigninData] = useState({
+        loginEmail: '',
+        loginPassword: ''
+    });
+
+    // React state to store validation error message signin field.
+    const [signinError, setSigninError] = useState('');
+
+    // Function that handles changes in any input field.
+    const handleSigninInputChange = (event) => {
+
+        // Extract the field name and its value from the event.
+        const { name, value } = event.target;
+
+        // Update the corresponding field in the signupData state.
+        setSigninData(prev => ({ ...prev, [name]: value }));
+
+        // Clear any existing error for that specific field as the user types.
+        setSigninError('');
+    };
+
+    // Function that runs when the Sign In form is submitted.
+    const handleSignInSubmit = (event) => {
+
+        // Prevents the default form submission.
+        event.preventDefault();
+
+        // Destructure the current values from the signupData state.
+        const { loginEmail, loginPassword } = signinData;
+
+        // Flag to track if the form is valid.
+        let isValid = true;
+
+        setSigninError('');
+
+        // Name validation.
+        if (!loginEmail.trim()) { // If there is no name.
+            setSigninError('Email or Password is incorrect.');
+            isValid = false; // Mark form as invalid.
+        };
+
+        // Password validation.
+        if (!loginPassword) { // If there is no password.
+            setSigninError('Email or Password is incorrect.');
+            isValid = false; // Mark form as invalid.
+        };
+
+        // If validation failed, stop the function here.
+        if (!isValid) return;
+
+        alert("Sign in successful!");
+    };
+
+
     // Return statement for the JSX that defines the component login and signup UI.
     return (
         // Render a div with a class and ID of "container" and attaches the containerRef to it.
         <div className="container" id="container" ref={containerRef}>
+
             <div className="form-container sign-up">
-                <form>
+
+                <form onSubmit={handleSignUpSubmit}>
+
                     <h1 className ="heading">Create Account</h1>
-                    <span>Use your email for registeration</span>
-                    <input type="text" placeholder="Name"/>
-                    <input type="email" placeholder="Email"/>
-                    <input type="password" placeholder="Password"/>
-                    <button>Sign Up</button>
+
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Name"
+                        value={signupData.name}
+                        onChange={handleSignupInputChange}
+                    />
+                    {signupErrors.name && <span className="error">{signupErrors.name}</span>}
+
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        value={signupData.email}
+                        onChange={handleSignupInputChange}
+                    />
+                    {signupErrors.email && <span className="error">{signupErrors.email}</span>}
+
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        value={signupData.password}
+                        onChange={handleSignupInputChange}
+                    />
+                    {signupErrors.password && <span className="error">{signupErrors.password}</span>}
+
+                    <button type="submit">Sign Up</button>
                 </form>
+
             </div>
+
             <div className="form-container sign-in">
-                <form>
+
+                <form onSubmit={handleSignInSubmit}>
                     <h1 className ="heading">Sign In</h1>
-                    <span>Use your email password</span>
-                    <input type="email" placeholder="Email"/>
-                    <input type="password" placeholder="Password"/>
+
+                    <input 
+                        type="email"
+                        name="loginEmail"
+                        placeholder="Email"
+                        value={signinData.loginEmail}
+                        onChange={handleSigninInputChange}
+                    />
+
+                    <input 
+                        type="password" 
+                        name="loginPassword"
+                        placeholder="Password"
+                        value={signinData.loginPassword}
+                        onChange={handleSigninInputChange}
+                    />
+
+                    {signinError && <span className="error">{signinError}</span>}
+
                     <a href="#">Forget Your Password?</a>
-                    <button>Sign In</button>
+
+                    <button type="submit">Sign In</button>
                 </form>
+
             </div>
+
             <div className="toggle-container">
                 <div className="toggle">
                     <div className="toggle-panel toggle-left">

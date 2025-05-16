@@ -1,6 +1,7 @@
 // Import dependencies.
 import { useEffect, useRef, useState } from 'react'; // Import React hooks.
 import { Link } from 'react-router-dom'; // Import the link from the DOM.
+import ReCAPTCHA from 'react-google-recaptcha'; // Import ReCAPTCHA component for Google reCAPTCHA integration.
 import './Login-Signup.css' // Import the CSS file to style the component.
 
 
@@ -9,6 +10,11 @@ function Login_Signup() {
 
     // Creates a reference and initialised it to null.
     const containerRef = useRef(null);
+
+    // State to store the reCAPTCHA token for sign-up form.
+    const [signupCaptcha, setSignupCaptcha] = useState(null);
+    // State to store the reCAPTCHA token for sign-in form.
+    const [loginCaptcha, setLoginCaptcha] = useState(null);
 
     // Starts a useEffect hook to handle side effects after the component mounts.
     useEffect(() => {
@@ -56,6 +62,10 @@ function Login_Signup() {
         email: '',
         password: ''
     });
+
+    // React error state for captcha.
+    const [signupCaptchaError, setSignupCaptchaError] = useState('');
+    const [loginCaptchaError, setLoginCaptchaError] = useState('');
 
     // Function that handles changes in any input field.
     const handleSignupInputChange = (event) => {
@@ -133,6 +143,11 @@ function Login_Signup() {
         if (response.ok) {
             alert('Sign up successful!');
             // Optionally reset form here
+
+            if (!signupCaptcha) {
+            setSignupCaptchaError('Please verify reCAPTCHA');
+            return;
+        }
         } else {
             alert(data.message || 'Signup failed');
         }
@@ -205,6 +220,11 @@ function Login_Signup() {
 
         if (response.ok) {
             alert('Sign in successful!');
+
+            if (!loginCaptcha) {
+            setLoginCaptchaError('Please verify reCAPTCHA');
+            return;
+        }
             // Optionally redirect or save auth token here
         } else {
             setSigninError(data.message || 'Login failed');
@@ -253,6 +273,14 @@ function Login_Signup() {
                     />
                     {signupErrors.password && <span className="error">{signupErrors.password}</span>}
 
+                    {/* reCAPTCHA for sign-up form */}
+                    <ReCAPTCHA
+                        sitekey="6LcrWDsrAAAAACZ92cp6Pee0BiYkUf8ZNfx9rgue"
+                        onChange={setSignupCaptcha}
+                    />
+                    {signupCaptchaError && <span className="error">{signupCaptchaError}</span>}
+
+
                     <button type="submit">Sign Up</button>
                 </form>
 
@@ -280,6 +308,13 @@ function Login_Signup() {
                     />
 
                     {signinError && <span className="error">{signinError}</span>}
+
+                    {/* reCAPTCHA for sign-in form */}
+                    <ReCAPTCHA
+                        sitekey="6LcrWDsrAAAAACZ92cp6Pee0BiYkUf8ZNfx9rgue"
+                        onChange={setLoginCaptcha}
+                    />
+                    {loginCaptchaError && <span className="error">{loginCaptchaError}</span>}
 
                     <Link to="/forgot-password">Forget Your Password?</Link>
 

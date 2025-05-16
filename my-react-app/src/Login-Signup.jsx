@@ -71,7 +71,7 @@ function Login_Signup() {
     };
 
     // Function that runs when the Sign Up form is submitted.
-    const handleSignUpSubmit = (event) => {
+    const handleSignUpSubmit = async (event) => {
 
         // Prevents the default form submission.
         event.preventDefault();
@@ -119,6 +119,26 @@ function Login_Signup() {
         if (!isValid) return;
 
         alert("Sign up successful!");
+        try {
+        const response = await fetch('http://localhost:5000/register', {  // replace URL with your actual backend URL
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, email, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert('Sign up successful!');
+            // Optionally reset form here
+        } else {
+            alert(data.message || 'Signup failed');
+        }
+    } catch (error) {
+        alert('Network error: ' + error.message);
+    }
     };
 
 
@@ -145,7 +165,7 @@ function Login_Signup() {
     };
 
     // Function that runs when the Sign In form is submitted.
-    const handleSignInSubmit = (event) => {
+    const handleSignInSubmit = async (event) => {
 
         // Prevents the default form submission.
         event.preventDefault();
@@ -174,6 +194,24 @@ function Login_Signup() {
         if (!isValid) return;
 
         alert("Sign in successful!");
+        try {
+        const response = await fetch('http://localhost:5000/login', {  // Your login endpoint here
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: loginEmail, password: loginPassword })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert('Sign in successful!');
+            // Optionally redirect or save auth token here
+        } else {
+            setSigninError(data.message || 'Login failed');
+        }
+    } catch (error) {
+        setSigninError('Network error: ' + error.message);
+    }
     };
 
 

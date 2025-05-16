@@ -341,5 +341,6 @@ function Login_Signup() {
     )
 }
 
+export default Login_Signup;
 
 // Exports the component so it can be imported and used in other files.

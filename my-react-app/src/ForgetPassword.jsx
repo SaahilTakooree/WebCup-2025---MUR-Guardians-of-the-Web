@@ -149,10 +149,10 @@ function ForgetPassword() {
                 </div>
 
                 <div className="captcha-box">
-                    {/* reCAPTCHA for sign-up form */}
                     <ReCAPTCHA
                         sitekey="6LcrWDsrAAAAACZ92cp6Pee0BiYkUf8ZNfx9rgue" 
                         onChange={setForgetPasswordCaptcha}
+                        onExpired={() => setSignupCaptcha(null)}
                     />
                 </div>
 

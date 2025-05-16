@@ -15,38 +15,8 @@ function Login_Signup() {
     const [signupCaptcha, setSignupCaptcha] = useState(null);
     // State to store the reCAPTCHA token for sign-in form.
     const [loginCaptcha, setLoginCaptcha] = useState(null);
-
-    // Starts a useEffect hook to handle side effects after the component mounts.
-    useEffect(() => {
-
-        // Assigns the actual DOM element referenced by containerRef to container.
-        const container = containerRef.current;
-
-        // Select the DOM elements for the register and login buttons using their IDs.
-        const registerBtn = document.getElementById('register');
-        const loginBtn = document.getElementById('login');
-
-        // Defines a function to add the active class to the container when the "Sign Up" button is clicked.
-        const handleRegisterClick = () => {
-            container.classList.add('active');
-        };
-
-        // Defines a function to remove the active class from the container when the "Sign In" button is clicked.
-        const handleLoginClick = () => {
-            container.classList.remove('active');
-        };
-
-        // Add click event listeners to both buttons to toggle the form view.
-        registerBtn.addEventListener('click', handleRegisterClick);
-        loginBtn.addEventListener('click', handleLoginClick);
-
-        // Start the cleanup function that runs when the component unmounts or dependencies change.
-        return () => {
-            // Removes the click event listeners to avoid memory leaks.
-            registerBtn.removeEventListener('click', handleRegisterClick);
-            loginBtn.removeEventListener('click', handleLoginClick);
-        };
-    }, []);
+    // Starts a useState hook to handle side effects after the component mounts.
+    const [isRegisterActive, setIsRegisterActive] = useState(false);
 
 
     // React state to store the user's signup form data.
@@ -122,6 +92,12 @@ function Login_Signup() {
             isValid = false; // Mark form as invalid.
         };
 
+        // check if the signup captcha has been done.
+        if (!signupCaptcha) {
+            setSignupCaptchaError('Please verify reCAPTCHA');
+            isValid = false; // Mark form as invalid.
+        };
+
         // Update the state with any collected error messages.
         setSignupErrors(errors);
 
@@ -138,22 +114,17 @@ function Login_Signup() {
             body: JSON.stringify({ name, email, password })
         });
 
-        const data = await response.json();
+            const data = await response.json();
 
-        if (response.ok) {
-            alert('Sign up successful!');
-            // Optionally reset form here
+            if (response.ok) {
+                alert('Sign up successful!');
+            } else {
+                alert(data.message || 'Signup failed');
+            };
 
-            if (!signupCaptcha) {
-            setSignupCaptchaError('Please verify reCAPTCHA');
-            return;
+        } catch (error) {
+            alert('Network error: ' + error.message);
         }
-        } else {
-            alert(data.message || 'Signup failed');
-        }
-    } catch (error) {
-        alert('Network error: ' + error.message);
-    }
     };
 
 
@@ -208,7 +179,7 @@ function Login_Signup() {
         // If validation failed, stop the function here.
         if (!isValid) return;
 
-
+        // try to login.
         try {
         const response = await fetch('https://guardiansofth.maurice.webcup.hodi.host/login', {  // Your login endpoint here
             method: 'POST',
@@ -216,131 +187,134 @@ function Login_Signup() {
             body: JSON.stringify({ email: loginEmail, password: loginPassword })
         });
 
-        const data = await response.json();
+            const data = await response.json();
 
-        if (response.ok) {
-            alert('Sign in successful!');
+            if (response.ok) {
+                alert('Sign in successful!');
+            } else {
+                setSigninError(data.message || 'Login failed');
+            }
 
-            if (!loginCaptcha) {
-            setLoginCaptchaError('Please verify reCAPTCHA');
-            return;
-        }
-            // Optionally redirect or save auth token here
-        } else {
-            setSigninError(data.message || 'Login failed');
-        }
-    } catch (error) {
-        setSigninError('Network error: ' + error.message);
-    }
+        } catch (error) {
+            setSigninError('Network error: ' + error.message);
+        };
     };
 
 
     // Return statement for the JSX that defines the component login and signup UI.
     return (
-        // Render a div with a class and ID of "container" and attaches the containerRef to it.
-        <div className="container" id="container" ref={containerRef}>
-
-            <div className="form-container sign-up">
-
-                <form onSubmit={handleSignUpSubmit}>
-
-                    <h1 className ="heading">Create Account</h1>
-
-                    <input
-                        type="text"
-                        name="name"
-                        placeholder="Name"
-                        value={signupData.name}
-                        onChange={handleSignupInputChange}
-                    />
-                    {signupErrors.name && <span className="error">{signupErrors.name}</span>}
-
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        value={signupData.email}
-                        onChange={handleSignupInputChange}
-                    />
-                    {signupErrors.email && <span className="error">{signupErrors.email}</span>}
-
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                        value={signupData.password}
-                        onChange={handleSignupInputChange}
-                    />
-                    {signupErrors.password && <span className="error">{signupErrors.password}</span>}
-
-                    {/* reCAPTCHA for sign-up form */}
-                    <ReCAPTCHA
-                        sitekey="6LcrWDsrAAAAACZ92cp6Pee0BiYkUf8ZNfx9rgue"
-                        onChange={setSignupCaptcha}
-                    />
-                    {signupCaptchaError && <span className="error">{signupCaptchaError}</span>}
-
-
-                    <button type="submit">Sign Up</button>
-                </form>
-
-            </div>
-
-            <div className="form-container sign-in">
-
+        <div className={`container ${isRegisterActive ? 'active' : ''}`} id="container" ref={containerRef}>
+            <div className="form-box login">
                 <form onSubmit={handleSignInSubmit}>
-                    <h1 className ="heading">Sign In</h1>
+                    <h1>Login</h1>
+                    <div className="input-box">
+                        <input 
+                            type="email"
+                            name="loginEmail"
+                            placeholder="Email"
+                            value={signinData.loginEmail}
+                            onChange={handleSigninInputChange}
+                        />
+                        <i className='bx bxs-user'></i>
+                    </div>
+                    <div className="input-box">
+                        <input 
+                            type="password" 
+                            name="loginPassword"
+                            placeholder="Password"
+                            value={signinData.loginPassword}
+                            onChange={handleSigninInputChange}
+                        />
+                        <i className='bx bxs-lock-alt'></i>
 
-                    <input 
-                        type="email"
-                        name="loginEmail"
-                        placeholder="Email"
-                        value={signinData.loginEmail}
-                        onChange={handleSigninInputChange}
-                    />
+                        {signinError && <span className="error">{signinError}</span>}
+                    </div>
 
-                    <input 
-                        type="password" 
-                        name="loginPassword"
-                        placeholder="Password"
-                        value={signinData.loginPassword}
-                        onChange={handleSigninInputChange}
-                    />
-
-                    {signinError && <span className="error">{signinError}</span>}
-
-                    {/* reCAPTCHA for sign-in form */}
                     <ReCAPTCHA
-                        sitekey="6LcrWDsrAAAAACZ92cp6Pee0BiYkUf8ZNfx9rgue"
-                        onChange={setLoginCaptcha}
+                            sitekey="6LcrWDsrAAAAACZ92cp6Pee0BiYkUf8ZNfx9rgue"
+                            onChange={(value) => {
+                                setLoginCaptcha(value);
+                                setLoginCaptchaError('');
+                            }}
+                            onExpired={() => setLoginCaptcha(null)}
                     />
                     {loginCaptchaError && <span className="error">{loginCaptchaError}</span>}
 
-                    <Link to="/forgot-password">Forget Your Password?</Link>
+                    <div className="forgot-link">
+                        <Link to="/forgot-password">Forgot Password?</Link>
+                    </div>
 
-                    <button type="submit">Sign In</button>
+                    <button type="submit" className="btn">Sign In</button>
                 </form>
-
             </div>
 
-            <div className="toggle-container">
-                <div className="toggle">
-                    <div className="toggle-panel toggle-left">
-                        <h1>Welcome Back!</h1>
-                        <p>Enter your personal details to use all of site features</p>
-                        <button className="hidden" id="login">Sign In</button>
+            <div className="form-box register">
+                <form onSubmit={handleSignUpSubmit}>
+                    <h1>Registration</h1>
+                    <div className="input-box">
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Name"
+                            value={signupData.name}
+                            onChange={handleSignupInputChange}
+                        />
+                        <i className='bx bxs-user'></i>
+                        {signupErrors.name && <span className="error">{signupErrors.name}</span>}
                     </div>
-                    <div className="toggle-panel toggle-right">
-                        <h1>Hello, Friend!</h1>
-                        <p>Register with your personal details to use all of site features</p>
-                        <button className="hidden" id="register">Sign Up</button>
+                    <div className="input-box">
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            value={signupData.email}
+                            onChange={handleSignupInputChange}
+                        />
+                        <i className='bx bxs-envelope'></i>
+                        {signupErrors.email && <span className="error">{signupErrors.email}</span>}
                     </div>
+                    <div className="input-box">
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            value={signupData.password}
+                            onChange={handleSignupInputChange}
+                        />
+                        <i className='bx bxs-lock-alt'></i>
+                        {signupErrors.password && <span className="error">{signupErrors.password}</span>}
+                    </div>
+
+                    <ReCAPTCHA
+                        sitekey="6LcrWDsrAAAAACZ92cp6Pee0BiYkUf8ZNfx9rgue"
+                        onChange={(value) => {
+                            setSignupCaptcha(value);
+                            setSignupCaptchaError('');
+                        }}
+                        onExpired={() => setSignupCaptcha(null)}
+                    />
+
+                    {signupCaptchaError && <span className="error">{signupCaptchaError}</span>}
+
+                    <button type="submit" className="btn">Sign Up</button>
+                </form>
+            </div>
+
+            <div className="toggle-box">
+                <div className="toggle-panel toggle-left">
+                    <h1>Hello, Welcome!</h1>
+                    <p>Don't have an account?</p>
+                    <button type="button" className="btn register-btn" onClick={() => setIsRegisterActive(true)}>Register</button>
+                </div>
+                <div className="toggle-panel toggle-right">
+                    <h1>Welcome Back!</h1>
+                    <p>Already have an account?</p>
+                    <button type="button" className="btn login-btn" onClick={() => setIsRegisterActive(false)}>Login</button>
                 </div>
             </div>
         </div>
     )
 }
 
-export default Login_Signup;
-
 // Exports the component so it can be imported and used in other files.
+export default Login_Signup;

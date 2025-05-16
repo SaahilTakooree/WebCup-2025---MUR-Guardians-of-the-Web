@@ -1,6 +1,7 @@
 // Import dependencies.
 import './ForgetPassword.css' // Import the CSS file to style the component.
 import { useState } from 'react'; // Import React hooks.
+import ReCAPTCHA from 'react-google-recaptcha'; // Import ReCAPTCHA component for Google reCAPTCHA integration.
 import { Link } from 'react-router-dom'; // Import the link from the DOM.
 
 
@@ -18,6 +19,12 @@ function ForgetPassword() {
         email: '',
         password: ''
     });
+
+    // React state to store the reCAPTCHA token for forget password form.
+    const [forgetPasswordCaptcha, setForgetPasswordCaptcha] = useState(null);
+
+    const [forgetPasswordCaptchaError, setForgetPasswordCaptchaError] = useState('');
+
 
     // Function that handles changes in any input field.
     const handleInputForgetPasswordChange = (event) => {
@@ -83,6 +90,14 @@ function ForgetPassword() {
             const data = await response.json();
 
             if (response.ok) {
+
+                if (!forgetPasswordCaptcha) {
+                    setForgetPasswordCaptchaError('Please verify reCAPTCHA');
+                    return;
+                }
+
+                setForgetPasswordCaptcha('');
+
                 alert('Password changed successfully!');
                 // Optionally reset the form
                 setForgetPasswordData({ email: '', password: '' });
@@ -131,6 +146,14 @@ function ForgetPassword() {
                         </div>
                     </div>
 
+                </div>
+
+                <div className="captcha-box">
+                    {/* reCAPTCHA for sign-up form */}
+                    <ReCAPTCHA
+                        sitekey="6LcrWDsrAAAAACZ92cp6Pee0BiYkUf8ZNfx9rgue" 
+                        onChange={setForgetPasswordCaptcha}
+                    />
                 </div>
 
                 <div className="Submit_Box">

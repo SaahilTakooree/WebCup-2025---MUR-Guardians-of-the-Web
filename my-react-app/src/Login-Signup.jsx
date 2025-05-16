@@ -130,7 +130,7 @@ function Login_Signup() {
 
         
         try {
-        const response = await fetch('https://guardiansofth.maurice.webcup.hodi.host/register', {  // replace URL with your actual backend URL
+        const response = await fetch('https://backend.guardiansofth.maurice.webcup.hodi.host/register', {  // replace URL with your actual backend URL
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -210,7 +210,7 @@ function Login_Signup() {
 
         
         try {
-        const response = await fetch('https://guardiansofth.maurice.webcup.hodi.host/backend/login', {  // Your login endpoint here
+        const response = await fetch('https://backend.guardiansofth.maurice.webcup.hodi.host/login', {  // Your login endpoint here
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: loginEmail, password: loginPassword })

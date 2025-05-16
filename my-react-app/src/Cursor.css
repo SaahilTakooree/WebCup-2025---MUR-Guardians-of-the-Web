@@ -1,0 +1,30 @@
+/* CSS for the style of the custom cursor. */
+
+
+
+/* Small center dot that follows the mouse pointer. */
+.cursor-dot {
+    width: 	5px;
+    height: 5px;
+    background-color: black;
+}
+
+
+/* Larger outlined circle that trails behind the dot. */
+.cursor-outline {
+    width: 30px;
+    height: 30px;
+    border: 2px solid black;
+}
+
+
+/* Shared styles for both cursor elements. */
+.cursor-dot, .cursor-outline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: 1500;
+    pointer-events: none;
+}

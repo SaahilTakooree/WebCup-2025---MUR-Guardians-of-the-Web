@@ -88,6 +88,45 @@ app.post('/login', (req, res) => {
     res.json({ message: 'Login successful' });
   });
 });
+// Forget Password Route
+app.post('/forgot-password', async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Email and password are required' });
+  }
+
+  try {
+    // Check if user exists
+    db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
+      if (err) {
+        console.error('Database error:', err);
+        return res.status(500).json({ message: 'Database error' });
+      }
+
+      if (results.length === 0) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      // Hash new password
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      // Update password in database
+      db.query('UPDATE users SET password = ? WHERE email = ?', [hashedPassword, email], (err, result) => {
+        if (err) {
+          console.error('Error updating password:', err);
+          return res.status(500).json({ message: 'Error updating password' });
+        }
+
+        res.status(200).json({ message: 'Password updated successfully' });
+      });
+    });
+  } catch (err) {
+    console.error('Unexpected error:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

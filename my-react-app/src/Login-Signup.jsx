@@ -118,7 +118,7 @@ function Login_Signup() {
         // If validation failed, stop the function here.
         if (!isValid) return;
 
-        alert("Sign up successful!");
+        
         try {
         const response = await fetch('http://localhost:5000/register', {  // replace URL with your actual backend URL
             method: 'POST',
@@ -193,7 +193,7 @@ function Login_Signup() {
         // If validation failed, stop the function here.
         if (!isValid) return;
 
-        alert("Sign in successful!");
+        
         try {
         const response = await fetch('http://localhost:5000/login', {  // Your login endpoint here
             method: 'POST',

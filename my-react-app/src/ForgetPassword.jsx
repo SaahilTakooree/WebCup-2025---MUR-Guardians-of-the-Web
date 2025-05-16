@@ -33,7 +33,7 @@ function ForgetPassword() {
     };
 
     // Function that runs when the Sign Up form is submitted.
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
 
         // Prevents the default form submission.
         event.preventDefault();
@@ -71,7 +71,27 @@ function ForgetPassword() {
         // If validation failed, stop the function here.
         if (!isValid) return;
 
-        alert('Password changed successfully!');
+        try {
+            const response = await fetch('http://localhost:5000/forgot-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert('Password changed successfully!');
+                // Optionally reset the form
+                setForgetPasswordData({ email: '', password: '' });
+            } else {
+                alert(data.message || 'Password change failed');
+            }
+        } catch (error) {
+            alert('Network error: ' + error.message);
+        }
     };
 
     

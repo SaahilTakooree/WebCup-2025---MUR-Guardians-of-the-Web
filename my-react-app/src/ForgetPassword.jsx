@@ -72,6 +72,12 @@ function ForgetPassword() {
             isValid = false; // Mark form as invalid.
         };
 
+        // Check if the forget password captcha is valid.
+        if (!forgetPasswordCaptcha) {
+            setForgetPasswordCaptchaError('Please verify reCAPTCHA');
+            isValid = false; // Mark form as invalid.
+        }
+
         // Update the state with any collected error messages.
         setForgetPasswordErrors(errors);
 
@@ -90,11 +96,6 @@ function ForgetPassword() {
             const data = await response.json();
 
             if (response.ok) {
-
-                if (!forgetPasswordCaptcha) {
-                    setForgetPasswordCaptchaError('Please verify reCAPTCHA');
-                    return;
-                }
 
                 setForgetPasswordCaptcha('');
 
@@ -138,7 +139,7 @@ function ForgetPassword() {
                                 type="password"
                                 className="Input_Field"
                                 name="password"
-                                placeholder="Password"
+                                placeholder="New Password"
                                 value={forgetPasswordData.password}
                                 onChange={handleInputForgetPasswordChange}
                             />
@@ -148,13 +149,15 @@ function ForgetPassword() {
 
                 </div>
 
-                <div className="captcha-box">
+                <div className="Input_Row">
                     <ReCAPTCHA
                         sitekey="6LcrWDsrAAAAACZ92cp6Pee0BiYkUf8ZNfx9rgue" 
                         onChange={setForgetPasswordCaptcha}
                         onExpired={() => setSignupCaptcha(null)}
                     />
                 </div>
+                {forgetPasswordCaptchaError && <span className="error">{forgetPasswordCaptchaError}</span>}
+
 
                 <div className="Submit_Box">
                     <button type="submit" className="Submit_Field">Submit</button>

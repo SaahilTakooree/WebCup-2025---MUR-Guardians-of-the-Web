@@ -1,6 +1,12 @@
-/* Import a custom fornt. */
+/* CSS for the style and layout of the change Login-Signup page. */
+
+
+
+/* Import a custom font. */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
+
+/* Reset and base font styles. */
 * {
     margin: 0;
     padding: 0;
@@ -8,6 +14,8 @@
     font-family: 'Poppins', sans-serif;
 }
 
+
+/* Centering the body and background gradient. */
 body {
     display: flex;
     justify-content: center;
@@ -16,6 +24,8 @@ body {
     background: linear-gradient(to right, #e2e2e2, #c9d6ff);
 }
 
+
+/* Main container for login/signup box. */
 .container {
     position: relative;
     width: 850px;
@@ -27,6 +37,8 @@ body {
     overflow: hidden;
 }
 
+
+/* Base style for form sections. */
 .form-box {
     position: absolute;
     right: 0;
@@ -42,32 +54,46 @@ body {
     transition: .3s ease-in-out 0.6s, visibility 0s 0.5s;
 }
 
+
+/* Shift login form when container is active. */
 .container.active .form-box {
     right: 50%;
 }
 
+
+/* Hide the register form by default. */
 .form-box.register {
     visibility: hidden;
 }
 
+
+/* Show register form when container is active. */
 .container.active .form-box.register {
     visibility: visible;
 }
 
+
+/* Full width for all forms. */
 form {
     width: 100%;
 }
 
+
+/* Main heading styling. */
 .container h1 {
     font-size: 36px;
     margin: -10px 0;
 }
 
+
+/* Wrapper for input elements. */
 .input-box {
     position: relative;
     margin: 30px 0;
 }
 
+
+/* Input field styling. */
 .input-box input {
     width: 100%;
     padding: 13px 50px 13px 20px;
@@ -80,11 +106,15 @@ form {
     font-weight: 500;
 }
 
+
+/* Placeholder text style. */
 .input-box input::placeholder {
     color: #888;
     font-weight: 400;
 }
 
+
+/* Icon position inside input. */
 .input-box i {
     position: absolute;
     right: 20px;
@@ -94,6 +124,8 @@ form {
     color: #888;
 }
 
+
+/* Style for "Forgot password?" container. */
 .forgot-link {
     margin: -15px 0 15px;
     padding: 5px;
@@ -101,6 +133,7 @@ form {
 }
 
 
+/* Style for form buttons. */
 .btn {
     width: 100%;
     height: 48px;
@@ -114,17 +147,23 @@ form {
     font-weight: 600;
 }
 
+
+/* Paragraph style inside container. */
 .container p {
     font-size: 14.5px;
     margin: 15px 0;
 }
 
+
+/* Toggle box wrapper between forms. */
 .toggle-box {
     position: absolute;
     width: 100%;
     height: 100%;
 }
 
+
+/* Background animation overlay. */
 .toggle-box::before {
     content: '';
     position: absolute;
@@ -137,10 +176,14 @@ form {
     transition: 0.9s ease-in-out;
 }
 
+
+/* Shift overlay to the right on activation. */
 .container.active .toggle-box::before {
     left: 50%;
 }
 
+
+/* Panel content on toggle section. */
 .toggle-panel {
     position: absolute;
     width: 50%;
@@ -154,30 +197,42 @@ form {
     transition: .3s ease-in-out;
 }
 
+
+/* Left toggle panel. */
 .toggle-panel.toggle-left {
     left: 0;
     transition-delay: 0.6s;
 }
 
+
+/* Move left toggle panel off-screen on active. */
 .container.active .toggle-panel.toggle-left {
     left: -50%;
     transition-delay: .15s;
 }
 
+
+/* Right toggle panel. */
 .toggle-panel.toggle-right {
     right: -50%;
     transition-delay: .15s;
 }
 
+
+/* Bring right toggle panel into view on active. */
 .container.active .toggle-panel.toggle-right {
     right: 0;
     transition-delay: 0.6s;
 }
 
+
+/* Paragraphs inside toggle panel. */
 .toggle-panel p {
     margin-bottom: 20px;
 }
 
+
+/* Button inside toggle panel. */
 .toggle-panel .btn {
     width: 160px;
     height: 46px;
@@ -186,17 +241,24 @@ form {
     box-shadow: none;
 }
 
-@media screen and (max-width: 650px) {
+
+/* Responsive layout for medium screens. */
+@media screen and (max-width: 900px) {
+
+    /* Set the dimention of the container. */
     .container {
         height: calc(100vh - 40px);
+        width: calc(100vw - 20px);
     }
 
+    /* Stack form on bottom in mobile view. */
     .form-box {
         bottom: 0;
         width: 100%;
         height: 70%;
     }
 
+    
     .container.active .form-box {
         right: 0;
         bottom: 30%;
@@ -210,6 +272,7 @@ form {
         margin: -5px 0 15px;
     }
 
+    /* Adjust overlay background shape. */
     .toggle-box::before {
         left: 0;
         top: -270%;
@@ -247,6 +310,8 @@ form {
     }
 }
 
+
+/* Adjust padding and heading font for very small screens. */
 @media screen and (max-width: 400px) {
     .form-box {
         padding: 20px;
@@ -257,6 +322,8 @@ form {
     }
 }
 
+
+/* Style for displaying error messages. */
 .error {
     color: red;
     font-size: .8em;

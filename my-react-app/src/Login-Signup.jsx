@@ -207,7 +207,6 @@ function Login_Signup() {
 
     // Return statement for the JSX that defines the component login and signup UI.
     return (
-        // Render a div with a className and ID of "container" and attaches the containerRef to it.
         <div className={`container ${isRegisterActive ? 'active' : ''}`} id="container" ref={containerRef}>
             <div className="form-box login">
                 <form onSubmit={handleSignInSubmit}>

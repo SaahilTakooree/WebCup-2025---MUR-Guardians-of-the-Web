@@ -71,7 +71,7 @@ function Login_Signup() {
     };
 
     // Function that runs when the Sign Up form is submitted.
-    const handleSignUpSubmit = async (event) => {
+    const handleSignUpSubmit = (event) => {
 
         // Prevents the default form submission.
         event.preventDefault();
@@ -115,28 +115,10 @@ function Login_Signup() {
         // Update the state with any collected error messages.
         setSignupErrors(errors);
 
+        // If validation failed, stop the function here.
         if (!isValid) return;
 
-    try {
-        const response = await fetch('http://localhost:5000/register', {  // replace URL with your actual backend URL
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name, email, password })
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            alert('Sign up successful!');
-            // Optionally reset form here
-        } else {
-            alert(data.message || 'Signup failed');
-        }
-    } catch (error) {
-        alert('Network error: ' + error.message);
-    }
+        alert("Sign up successful!");
     };
 
 
@@ -163,7 +145,7 @@ function Login_Signup() {
     };
 
     // Function that runs when the Sign In form is submitted.
-    const handleSignInSubmit = async (event) => {
+    const handleSignInSubmit = (event) => {
 
         // Prevents the default form submission.
         event.preventDefault();
@@ -191,24 +173,7 @@ function Login_Signup() {
         // If validation failed, stop the function here.
         if (!isValid) return;
 
-        try {
-        const response = await fetch('http://localhost:5000/login', {  // Your login endpoint here
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: loginEmail, password: loginPassword })
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            alert('Sign in successful!');
-            // Optionally redirect or save auth token here
-        } else {
-            setSigninError(data.message || 'Login failed');
-        }
-    } catch (error) {
-        setSigninError('Network error: ' + error.message);
-    }
+        alert("Sign in successful!");
     };
 
 

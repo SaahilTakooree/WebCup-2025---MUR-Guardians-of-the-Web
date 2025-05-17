@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css'
+import AddPost from './AddPost.jsx';
 import Login_Signup from './Login-Signup.jsx';
 import ForgetPassword from './ForgetPassword.jsx';
 import Cursor from './Cursor'; 
@@ -11,7 +12,8 @@ function App() {
       <Cursor />
       <Router>
         <Routes>
-          <Route path="/" element={<Login_Signup />} />
+          <Route path="/" element={<AddPost />} />
+          <Route path="/login-signup" element={<Login_Signup />} />
           <Route path="/forgot-password" element={<ForgetPassword />} />
         </Routes>
       </Router>

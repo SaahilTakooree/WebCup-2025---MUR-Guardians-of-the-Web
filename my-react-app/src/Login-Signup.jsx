@@ -120,7 +120,7 @@ function Login_Signup() {
 
         
         try {
-        const response = await fetch('http://localhost:5000/register', {  // replace URL with your actual backend URL
+        const response = await fetch('http://102.222.106.153:5000/register', {  // replace URL with your actual backend URL
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -195,7 +195,7 @@ function Login_Signup() {
 
         
         try {
-        const response = await fetch('http://localhost:5000/login', {  // Your login endpoint here
+        const response = await fetch('http://102.222.106.153:5000/login', {  // Your login endpoint here
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: loginEmail, password: loginPassword })

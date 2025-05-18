@@ -4,34 +4,30 @@ import { motion } from 'framer-motion';
 import { FaPlus } from 'react-icons/fa';
 import gsap from 'gsap';
 import axios from 'axios';
+import { supabase } from "./supabaseClient";
+
 
 
 function HomePage() {
-
     const [articles, setArticles] = useState([]);
-
     const [posterUrl, setPosterUrl] = useState(null);
 
     useEffect(() => {
-        // Fetch articles from the API
-        /*
-            {
-                "id": 1,
-                "name": "name",
-                "link": *link will be the api that get the data from the dabasebase on an id[...../id/{id}]),
-                "like": *number of likes that article have,
-                "createdAt": "2025-05-17T14:00:00Z"
+        async function fetchArticles() {
+            const { data, error } = await supabase
+  .from('posts')
+  .select('id, message, mood, gif_url, created_at')
+  .order('created_at', { ascending: false });
+
+
+            if (error) {
+                console.error('Supabase fetch error:', error);
+            } else {
+                setArticles(data);
             }
-        */
-        axios.get('/api/articles')
-        .then(response => {
-            // Sort articles by createdAt descending (newest first)
-            const sorted = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-            setArticles(sorted);
-        })
-        .catch(error => {
-            console.error("Error fetching articles:", error);
-        });
+        }
+
+        fetchArticles();
     }, []);
 
 

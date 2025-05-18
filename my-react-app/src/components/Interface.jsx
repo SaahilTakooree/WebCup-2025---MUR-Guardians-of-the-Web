@@ -122,7 +122,7 @@ const MessageSection = ({ message, setMessage }) => {
 const ReactionSection = ({ selected, setSelected }) => {
   const moods = [
     { label: "Classy", icon: "bx-wine", color: "text-purple-700" },
-    { label: "Dramatic", icon: "bx-theater", color: "text-red-600" },
+    { label: "Dramatic", icon: "bx-movie-play", color: "text-red-600" },
     { label: "Sad", icon: "bx-sad", color: "text-blue-600" },
     { label: "Happy", icon: "bx-smile", color: "text-yellow-500" },
   ];
@@ -138,11 +138,11 @@ const ReactionSection = ({ selected, setSelected }) => {
         {moods.map((mood) => (
           <label
             key={mood.label}
-            className={`cursor-pointer flex items-center gap-3 px-4 py-3 rounded-xl border
-                        transition-all duration-200 shadow-sm 
+            className={`cursor-pointer flex items-center gap-4 px-6 py-4 rounded-2xl border
+                        transition-all duration-200 shadow-md text-gray-800
                         ${
                           selected === mood.label
-                            ? "bg-gray-100 border-gray-400"
+                            ? "bg-gray-100 border-black ring-2 ring-offset-2 ring-black"
                             : "bg-white border-gray-200 hover:border-gray-400"
                         }`}
           >
@@ -200,7 +200,7 @@ export const AddPostButton = ({ onClick }) => {
     <Section>
         <motion.button
             onClick={onClick}
-            className="mt-12 px-6 py-3 rounded-full bg-black text-white text-lg font-semibold shadow-md hover:bg-gray-900 transition duration-200 flex items-center gap-2"
+            className="mt-12 px-12 py-9 rounded-full bg-black text-white text-lg font-semibold shadow-md hover:bg-gray-900 transition duration-200 flex items-center gap-2"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.6 }}

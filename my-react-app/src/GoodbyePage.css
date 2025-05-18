@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+
+.goodbye-page-main-container {
+  background-color: rgb(61, 61, 66);
+  overflow-x: hidden;
+  width: 80vw;
+  height: 100vh;
+}
+
+.lottie-cloud-container{
+  display: flex;
+  max-height: 50vh;
+  margin-top: -30vh;
+  /* top: 0;
+  margin-left: 0; */
+}
+.curtain-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  pointer-events: none; /* So it doesn't block interaction */
+}
+
+.goodbye-image-container{
+  width: 30%;
+  margin: 0 auto; 
+}
+.goodbye-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: auto;
+  padding: 2em;
+  border-radius: 12px;
+  color: white;
+  text-align: center;
+  margin-top: 20vh;
+  border: 2px solid rgba(87, 86, 86, 0.3); 
+}
+
+.lottie-container {
+  position: fixed; /* Put it on top of everything */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh; /* Cover full height if you want a dramatic curtain */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent; /* So it doesn't block the whole view unless needed */
+  z-index: 2000; /* Higher than rain and content */
+  pointer-events: none; /* So it doesn't block user interactions */
+}
+
+
+
+.goodbye-message {
+  font-size: 1.2em;
+  margin: 1em 0;
+  white-space: pre-line;
+}
+
+.goodbye-image {
+  max-width: 100%;
+  margin-top: 1em;
+  border-radius: 8px;
+}
+
+.goodbye-footer {
+  margin-top: 2em;
+  font-size: 0.9em;
+}
+
+/* Tone Styles */
+.tone-dramatic {
+  background: linear-gradient(135deg, #000000, #550000);
+}
+
+.tone-ironic {
+  background: linear-gradient(135deg, #f5f5f5, #888888);
+  color: #222;
+}
+
+.tone-touching {
+  background: linear-gradient(135deg, #ffe0e9, #ffd1dc);
+  color: #600020;
+}
+
+.tone-absurd {
+  background: repeating-linear-gradient(45deg, #ffcc00, #ff66cc 10px, #00ccff 20px);
+  color: #000;
+}
+
+.tone-passive-aggressive {
+  background: #fafafa;
+  color: #444;
+  font-style: italic;
+}
+
+.tone-cringe {
+  background: #ff00ff;
+  color: yellow;
+  font-family: 'Comic Sans MS', cursive;
+}
+
+.tone-honest {
+  background: #1e1e1e;
+  color: #e0e0e0;
+}
+
+.tone-melancholy {
+  font-family: 'Dancing Script', cursive;
+  background: linear-gradient(135deg, #000000, #555555);
+  color: #e0e0e0;
+}
+
+/* Rain container fills the entire page */
+.rain-container {
+  pointer-events: none; /* So it doesn't block clicks */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: visible;
+  z-index: 1000; /* Make sure it’s above other elements */
+}
+
+/* Each raindrop is a thin vertical line */
+.raindrop {
+  position: absolute;
+  top: -10px;
+  width: 2px;
+  height: 20px;
+  background: rgba(174, 194, 224, 0.5);
+  border-radius: 50%;
+  filter: drop-shadow(0 0 2px rgba(174, 194, 224, 0.7));
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-duration: 1.5s;
+  opacity: 0.6;
+}
+
+/* Animate falling from top to bottom */
+@keyframes fall {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(100vh) translateX(10px);
+    opacity: 0;
+  }
+}
+
+/* Optional: make rain a little different on dark tones */
+.goodbye-page.tone-melancholy .raindrop,
+.goodbye-page.tone-sad .raindrop {
+  background: rgba(138, 165, 204, 0.7);
+  filter: drop-shadow(0 0 3px rgba(138, 165, 204, 0.8));
+  border: 1px solid rgba(0, 0, 0, 0.3); 
+}
+

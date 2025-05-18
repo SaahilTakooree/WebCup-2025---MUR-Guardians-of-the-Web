@@ -1,0 +1,44 @@
+.goodbye-form {
+  max-width: 700px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 2em;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+.goodbye-form h2 {
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+.goodbye-form label {
+  display: block;
+  margin-top: 1em;
+  font-weight: bold;
+  color: #111;
+}
+
+.goodbye-form input,
+.goodbye-form select,
+.goodbye-form textarea {
+  width: 100%;
+  padding: 0.8em;
+  margin-top: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.goodbye-form button {
+  margin-top: 1.5em;
+  padding: 0.8em 1.5em;
+  background-color: #111;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.goodbye-form button:hover {
+  background-color: #333;
+}

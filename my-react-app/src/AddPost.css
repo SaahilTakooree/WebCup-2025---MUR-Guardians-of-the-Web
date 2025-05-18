@@ -1,22 +1,4 @@
 canvas{
     width: 100vw;
     height: 100vh;
-    overflow-y: hidden; /* prevent scrollbar inside canvas if possible */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE 10+ */
-}
-
-canvas::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
-}
-
-
-.react-three-fiber__canvas {
-  overflow-y: hidden;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE 10+ */
-}
-
-.react-three-fiber__canvas::-webkit-scrollbar {
-  display: none; /* Chrome */
 }

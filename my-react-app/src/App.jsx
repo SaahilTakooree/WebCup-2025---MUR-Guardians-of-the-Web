@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css'
 import AddPost from './AddPost.jsx';
@@ -9,16 +10,28 @@ import GoodbyePage from './GoodbyePage.jsx';
 
 function App() {
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
+
+
   return (
     <>
       <Cursor />
       <Router>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/add-post" element={<AddPost />} />
-          <Route path="/login-signup" element={<Login_Signup />} />
-          <Route path="/forgot-password" element={<ForgetPassword />} />
-          <Route path="/goodbye/:id" element={<GoodbyePage />} />
+          {/* If not logged in, always go to Login_Signup */}
+          {!isLoggedIn ? (
+            <>
+              <Route path="/*" element={<Login_Signup setIsLoggedIn={setIsLoggedIn} />} />
+              <Route path="/forgot-password" element={<ForgetPassword />} />
+            </>
+          ) : (
+            <>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/add-post" element={<AddPost />} />
+              <Route path="/forgot-password" element={<ForgetPassword />} />
+              <Route path="/goodbye/:id" element={<GoodbyePage />} />
+            </>
+          )}
         </Routes>
       </Router>
     </>

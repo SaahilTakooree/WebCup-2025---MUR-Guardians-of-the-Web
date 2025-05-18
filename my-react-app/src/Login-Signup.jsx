@@ -5,7 +5,7 @@ import "./Login-Signup.css"; // Import the CSS file to style the component.
 import { supabase } from "./supabaseClient";
 
 // Declares a functional React component named Login_Signup.
-function Login_Signup() {
+function Login_Signup({ setIsLoggedIn }) {
   // Creates a reference and initialised it to null.
   const containerRef = useRef(null);
 
@@ -121,6 +121,7 @@ function Login_Signup() {
         alert(`Error: ${error.message}`);
       } else {
         alert("Sign up successful!");
+        setIsLoggedIn(true);
       }
     } catch (err) {
       alert("Unexpected error: " + err.message);
@@ -185,7 +186,8 @@ function Login_Signup() {
       }
 
       alert("Sign in successful!");
-      console.log("User data:", users);
+      setIsLoggedIn(true);
+
       // Proceed with login session setup
     } catch (err) {
       setSigninError("Unexpected error: " + err.message);

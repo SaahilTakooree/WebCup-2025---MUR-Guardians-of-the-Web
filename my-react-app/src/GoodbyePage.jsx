@@ -4,7 +4,6 @@ import Lottie from 'lottie-react';
 import dramaticToneAnimation from './assets/animations/dramaticTone.json';
 import cloudAnimation from './assets/animations/cloudAnimation.json';
 import './GoodbyePage.css';
-import FallingText from './FallingText';
 
 
 function GoodbyePage() {

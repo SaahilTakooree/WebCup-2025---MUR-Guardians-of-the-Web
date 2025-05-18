@@ -85,7 +85,7 @@ function ForgetPassword() {
         if (!isValid) return;
 
         try {
-            const response = await fetch('http://102.222.106.153:5000/forgot-password', {
+            const response = await fetch('https://api.guardiansofth.maurice.webcup.hodi.host//forgot-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

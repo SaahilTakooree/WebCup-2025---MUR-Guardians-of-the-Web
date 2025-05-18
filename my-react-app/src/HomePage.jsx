@@ -84,7 +84,7 @@ return (
         {/* Page Title */}
         <h1 
             className="text-8xl font-bold mb-14"
-            style={{ color: '#FF00FF' }} // Replace with your custom color
+            style={{ color: '#002855' }} 
         >the end.page</h1>
 
         <Link to="/add-post">
@@ -93,15 +93,15 @@ return (
             animate={{ scale: 1.5 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
                 className="flex flex-col items-center justify-center bg-opacity-90 p-8 rounded-full shadow-lg cursor-pointer hover:bg-opacity-100 transition duration-300"
-                style={{ color: '#FFFFFF' }} // Replace with your custom color
+                style={{ color: '#FFB400' }} 
             >
             <FaPlus 
                 className="text-4xl"
-                style={{ color: '#FF00FF' }} // Replace with your custom color
+                style={{ color: '#002855' }} 
             />
             <span 
                 className="mt-2 text-sm font-semibold text-blue-800"
-                style={{ color: '#FF00FF' }} // Replace with your custom color
+                style={{ color: '#002855' }} 
             >Add New Post</span>
             </motion.div>
         </Link>

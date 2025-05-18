@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { supabase } from "../supabaseClient";
 
 
 const Section = ({ children }) => (
@@ -17,11 +18,11 @@ const Section = ({ children }) => (
 export const Interface = () => {
   const [message, setMessage] = useState("");
   const [mood, setMood] = useState("Happy");
-  const [gifFile, setGifFile] = useState(null); // the actual file
-  const [gifPreview, setGifPreview] = useState(null); // optional: preview
+  const [gifFile, setGifFile] = useState(null);
+  const [gifPreview, setGifPreview] = useState(null);
   const [error, setError] = useState("");
 
-  const handlePost = () => {
+  const handlePost = async () => {
     if (!message.trim() || !mood) {
       setError("Please enter a message and select a reaction.");
       return;
@@ -29,27 +30,59 @@ export const Interface = () => {
 
     setError("");
 
-    const formData = new FormData();
-    formData.append("message", message);
-    formData.append("mood", mood);
+    let gifUrl = null;
 
-    if (gifFile) {
-      formData.append("file", gifFile);
+    try {
+      // Upload GIF to Supabase Storage (if present)
+      if (gifFile) {
+        const fileExt = gifFile.name.split('.').pop();
+        const fileName = `${Date.now()}.${fileExt}`;
+        console.log("Uploading file:", gifFile);
+console.log("File name:", fileName);
+
+const { data, error: storageError } = await supabase.storage
+  .from("gifs")
+  .upload(fileName, gifFile);
+
+if (storageError) {
+  console.error("Storage upload error:", storageError);
+}
+
+
+        if (storageError) throw storageError;
+
+        // Get public URL
+        const { data: urlData } = supabase
+          .storage
+          .from("gifs")
+          .getPublicUrl(fileName);
+
+        gifUrl = urlData?.publicUrl;
+      }
+
+      // Insert post into Supabase table
+      const { data, error: insertError } = await supabase.from("posts").insert([
+        {
+          message: message.trim(),
+          mood,
+          gif_url: gifUrl,
+          created_at: new Date().toISOString(),
+        },
+      ]);
+
+      if (insertError) {
+        throw insertError;
+      }
+
+      alert("Post uploaded successfully!");
+      setMessage("");
+      setMood("Happy");
+      setGifFile(null);
+      setGifPreview(null);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to upload post: " + err.message);
     }
-
-    fetch("/api/posts", {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Upload success", data);
-        // reset form if needed
-      })
-      .catch((err) => {
-        console.error("Upload error", err);
-        setError("Failed to upload post.");
-      });
   };
 
   return (

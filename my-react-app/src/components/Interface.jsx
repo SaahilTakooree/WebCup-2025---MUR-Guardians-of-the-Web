@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+
 
 const Section = ({ children }) => (
   <motion.section
@@ -138,37 +140,42 @@ const AddGifSection = ({ setFile, setPreview }) => {
   };
 
   return (
-    <motion.div
-      className="w-full max-w-md mx-auto p-4 bg-white rounded-2xl shadow-md text-center"
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1, delay: 0.6 }}
-    >
-      <label className="cursor-pointer flex flex-col items-center justify-center border-2 border-dashed border-gray-300 p-6 rounded-xl hover:border-gray-500 transition duration-200">
-        <i className="bx bx-upload text-4xl text-gray-500 mb-2"></i>
-        <span className="text-gray-700 font-medium">Click to upload a photo or GIF</span>
-        <input
-          type="file"
-          accept="image/*"
-          className="hidden"
-          onChange={handleFileChange}
-        />
-      </label>
-    </motion.div>
+    <Section>
+        <motion.div
+            className="w-full max-w-md mx-auto p-4 bg-white rounded-2xl shadow-md text-center"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.6 }}
+            >
+            <label className="cursor-pointer flex flex-col items-center justify-center border-2 border-dashed border-gray-300 p-6 rounded-xl hover:border-gray-500 transition duration-200">
+                <i className="bx bx-upload text-4xl text-gray-500 mb-2"></i>
+                <span className="text-gray-700 font-medium">Click to upload a photo or GIF</span>
+                <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleFileChange}
+                />
+            </label>
+        </motion.div>
+    </Section>
   );
 };
 
 export const AddPostButton = ({ onClick }) => {
   return (
-    <motion.button
-      onClick={onClick}
-      className="mt-12 px-6 py-3 rounded-full bg-black text-white text-lg font-semibold shadow-md hover:bg-gray-900 transition duration-200 flex items-center gap-2"
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1, delay: 0.6 }}
-    >
-      <i className="bx bx-send text-xl"></i>
-      Add Post
-    </motion.button>
+    <Section>
+        <motion.button
+            onClick={onClick}
+            className="mt-12 px-6 py-3 rounded-full bg-black text-white text-lg font-semibold shadow-md hover:bg-gray-900 transition duration-200 flex items-center gap-2"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.6 }}
+            >
+            <i className="bx bx-send text-xl"></i>
+            Add Post
+        </motion.button>
+
+    </Section>
   );
 };

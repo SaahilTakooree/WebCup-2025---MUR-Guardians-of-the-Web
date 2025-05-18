@@ -14,9 +14,9 @@ function GoodbyePage() {
 
   const { name, tone, message, image } = data;
 
-  const showRain = tone === 'melancholy' || tone === 'sad';
+  const showRain = tone === 'melancholy' || tone === 'Sad';
   const showDramaticLottie = tone === 'dramatic';
-  const showCloudLottie = tone === 'melancholy' || tone === 'sad';
+  const showCloudLottie = tone === 'melancholy' || tone === 'Sad';
   const showConfetti = tone === 'happy';
 
   return (
